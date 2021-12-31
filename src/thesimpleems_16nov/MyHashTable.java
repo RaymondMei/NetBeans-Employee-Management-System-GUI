@@ -89,7 +89,9 @@ public class MyHashTable {
             for(int j=0; j<buckets[targetBucket].size(); j++){
                 if(employeeNum == buckets[targetBucket].get(j).getEmpNum()){
                     EmployeeInfo emp = buckets[targetBucket].get(j);
-                    buckets[targetBucket].remove(j);
+                    if(remove){
+                        buckets[targetBucket].remove(j);
+                    }
                     return emp;
                 }
             }

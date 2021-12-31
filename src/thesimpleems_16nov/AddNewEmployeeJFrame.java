@@ -43,6 +43,7 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
                 changed();
             }
             public void changed() {
+                jTextField1.setBackground(Color.WHITE);
                 boolean jTF1empty = jTextField1.getText().isEmpty();
                 boolean jTF2empty = jTextField2.getText().isEmpty();
                 boolean jTF3empty = jTextField3.getText().isEmpty();
@@ -131,6 +132,7 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
                 changed();
             }
             public void changed() {
+                jTextField5.setBackground(Color.WHITE);
                 boolean jTF1empty = jTextField1.getText().isEmpty();
                 boolean jTF2empty = jTextField2.getText().isEmpty();
                 boolean jTF3empty = jTextField3.getText().isEmpty();
@@ -329,14 +331,11 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -397,10 +396,16 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
             double deductRate = Double.parseDouble(jTextField5.getText());
             
             if(deductRate < 0 || deductRate > 1){
+                jTextField5.setBackground(Color.RED);
                 throw new IOException("Invalid Deduct Rate!");
             }
-        
-
+            
+            EmployeeInfo returnedEmp = mainHT.returnByEmployeeNumber(theEmpNum, false);
+            if(returnedEmp != null){ // Checks if Employee ID already exists
+                jTextField1.setBackground(Color.RED);
+                throw new IOException("Employee ID already exists!");
+            }
+            
             // prints information of employee recently added
             FTE theFTE = new FTE(theEmpNum, theFirstName, theLastName,
                             gender, workLoc, deductRate, 80000.00);
@@ -424,7 +429,7 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
         }catch(Exception e) {
             jLabel9.setVisible(false);
             jLabel4.setForeground(Color.RED);
-            jLabel4.setText("Invalid information!");
+            jLabel4.setText("Invalid Information or Employee ID already exists!");
             jLabel4.setVisible(true);
         }        
         
