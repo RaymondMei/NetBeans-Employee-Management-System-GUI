@@ -23,6 +23,8 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
     private MyHashTable mainHT;  // This contains the ref value for theHT of MainJFrame.
     
     private DefaultTableModel model;
+    
+    private int empCounter;
 
     
     // CONSTRUCTORS
@@ -31,6 +33,8 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
      */
     public LookupEmployeeInfoJFrame() {
         initComponents();
+        
+        
         
         jTextField1.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e){
@@ -51,6 +55,7 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                 }
             }
         });
+        jLabel4.setVisible(false);
         /*
         model.addColumn("Status");
         model.addColumn("Employee Number");
@@ -68,6 +73,30 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
     public void setMainHT(MyHashTable refvalForHT) {
         mainHT = refvalForHT;
         System.out.println("HERE HERE HERE HERE");
+        initModel();
+    }
+    public void initModel(){
+        int numInHT = mainHT.getNumInHashTable();
+        
+        model = new DefaultTableModel(new Object[] {"Status",
+                                                    "Employee Num",
+                                                    "First Name",
+                                                    "Last Name",
+                                                    "Gender",
+                                                    "Work Loc",
+                                                    "Deduct Rate",
+                                                    "Yearly Salary", 
+                                                    "Hourly Wage", 
+                                                    "Hours per Week", 
+                                                    "Weeks per Year"},
+                                                    numInHT);
+        model.setRowCount(1);
+        jTable1.setModel(model);
+        jTable1.setAutoCreateColumnsFromModel(true);
+        jTable1.setRowHeight(40);
+        jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_ALL_COLUMNS);
+            
+        this.empCounter = -1; // Row position in table for the employee
     }
 
     /**
@@ -110,7 +139,6 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel4.setText("Finding Employee");
-        jLabel4.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,237 +156,134 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-//        
-//        int numInHT = mainHT.getNumInHashTable();
-//        
-//        model = new DefaultTableModel(new Object[] {"Status",
-//                                                    "Employee Num",
-//                                                    "First Name",
-//                                                    "Last Name",
-//                                                    "Gender",
-//                                                    "Work Loc",
-//                                                    "Deduct Rate",
-//                                                    "Yearly Salary", 
-//                                                    "Hourly Wage", 
-//                                                    "Hours per Week", 
-//                                                    "Weeks per Year"},
-//                                                    numInHT);
-//        jTable1.setModel(model);
-//        jTable1.setAutoCreateColumnsFromModel(true);
-//        jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_ALL_COLUMNS);
-//            
-//        int empCounter = -1; // Row position in table for the employee
-//        
+        
+        // Reinitialize an empty model (clear previous data)
+        initModel();
+        
 //        jTextField1.setText("");
-////        System.out.println("");
-////        System.out.println("Number of employees in the HT is " + numInHT);
-//        
-////        if (numInHT > 0) {
-////            System.out.println("Here are the employees:");
-////            for (int i = 0; i < mainHT.buckets.length; i++) {
-////                for (int j = 0; j < mainHT.buckets[i].size(); j++) {
-//                    
-////                    EmployeeInfo theEmp = mainHT.buckets[i].get(j);
-//        try {
-//            int theEmpNum = Integer.parseInt(jTextField1.getText());
-//            EmployeeInfo theEmp = mainHT.returnByEmployeeNumber(theEmpNum, true);
-//            if(theEmp != null){
-//                String theFirstName = theEmp.firstName;
-//                String theLastName = theEmp.lastName;
-////                jLabel4.setForeground(new Color(0, 150, 0));
-////                jLabel4.setText("Removed Employee:  " + jTextField1.getText() + " "
-////                                + theFirstName + " " + theLastName);       
-////                jLabel4.setVisible(true);
-////
-////                jTextField1.setText("");
-//
-//empCounter++;
-//                    
-//                    System.out.println("  Employee number " + Integer.toString(theEmp.getEmpNum()));
-//                    System.out.println("  First name, last name : " + theEmp.getFirstName() + " " + theEmp.getLastName());
-//
-//                    if (theEmp instanceof FTE) {
-//                        FTE theFTE = (FTE) theEmp;
-//                        System.out.println("    That employee has gross yearly salary $" + Double.toString(theFTE.getYearlySalary()));
-//                        System.out.println("    That employee has net yearly income $" + Double.toString(theFTE.calcAnnualNetIncome()));
-//                        
-//                        model.setValueAt("Full Time", empCounter, 0);
-//                        model.setValueAt(theFTE.getEmpNum(), empCounter, 1);
-//                        model.setValueAt(theFTE.getFirstName(), empCounter, 2);
-//                        model.setValueAt(theFTE.getLastName(), empCounter, 3);
-//                        String genderOutput = "N/A";
-//                        if(theFTE.getGender() == 0){
-//                            genderOutput = "Male";
-//                        }else if(theFTE.getGender() == 1){
-//                            genderOutput = "Female";
-//                        }else{
-//                            genderOutput = "Other";
-//                        }
-//                        model.setValueAt(genderOutput, empCounter, 4);
-//                        String workLocOutput = "N/A";
-//                        if(theFTE.getWorkLoc() == 0){
-//                            workLocOutput = "Mississauga";
-//                        }else if(theFTE.getWorkLoc() == 1){
-//                            workLocOutput = "Toronto";
-//                        }else{
-//                            workLocOutput = "Markham";
-//                        }
-//                        model.setValueAt(workLocOutput, empCounter, 5);
-//                        model.setValueAt(theFTE.getDeductRate() * 100 + "%", empCounter, 6);
-//                        model.setValueAt(theFTE.getYearlySalary(), empCounter, 7);
-//                        model.setValueAt("N/A", empCounter, 8);
-//                        model.setValueAt("N/A", empCounter, 9);
-//                        model.setValueAt("N/A", empCounter, 10);
-//                    }
-//                    
-//                    if (theEmp instanceof PTE) {
-//                        PTE thePTE = (PTE) theEmp;
-//                        System.out.println("    That employee has hourly wage $" + Double.toString(thePTE.hourlyWage));
-//                        System.out.println("    That employee has hours per week " + Double.toString(thePTE.hoursPerWeek));
-//                        System.out.println("    That employee has weeks per year " + Double.toString(thePTE.weeksPerYear));
-//                        
-//                        model.setValueAt("Part Time", empCounter, 0);
-//                        model.setValueAt(thePTE.getEmpNum(), empCounter, 1);
-//                        model.setValueAt(thePTE.getFirstName(), empCounter, 2);
-//                        model.setValueAt(thePTE.getLastName(), empCounter, 3);
-//                        String genderOutput = "N/A";
-//                        if(thePTE.getGender() == 0){
-//                            genderOutput = "Male";
-//                        }else if(thePTE.getGender() == 1){
-//                            genderOutput = "Female";
-//                        }else{
-//                            genderOutput = "Other";
-//                        }
-//                        model.setValueAt(genderOutput, empCounter, 4);
-//                        String workLocOutput = "N/A";
-//                        if(thePTE.getWorkLoc() == 0){
-//                            workLocOutput = "Mississauga";
-//                        }else if(thePTE.getWorkLoc() == 1){
-//                            workLocOutput = "Toronto";
-//                        }else{
-//                            workLocOutput = "Markham";
-//                        }
-//                        model.setValueAt(workLocOutput, empCounter, 5);
-//                        model.setValueAt(thePTE.getDeductRate() * 100 + "%", empCounter, 6);
-//                        model.setValueAt("N/A", empCounter, 7);
-//                        model.setValueAt(thePTE.getHourlyWage(), empCounter, 8);
-//                        model.setValueAt(thePTE.getHoursPerWeek(), empCounter, 9);
-//                        model.setValueAt(thePTE.getWeeksPerYear(), empCounter, 10);
-//
-//                   }
-//            }else{
-//                jLabel4.setForeground(Color.RED);
-//                jLabel4.setText("No Employee Found!");
-//                jLabel4.setVisible(true);
-//            }
-//           
-//        }catch(Exception e) {
-//            jLabel4.setText("Invalid information!");
-//            jLabel4.setVisible(true);
-//        }
-//                    EmployeeInfo theEmp = mainHT.searchByEmployeeNumber(empNum);
+//        System.out.println("");
+//        System.out.println("Number of employees in the HT is " + numInHT);
+        
+//        if (numInHT > 0) {
+//            System.out.println("Here are the employees:");
+//            for (int i = 0; i < mainHT.buckets.length; i++) {
+//                for (int j = 0; j < mainHT.buckets[i].size(); j++) {
                     
-//                    empCounter++;
-//                    
-//                    System.out.println("  Employee number " + Integer.toString(theEmp.getEmpNum()));
-//                    System.out.println("  First name, last name : " + theEmp.getFirstName() + " " + theEmp.getLastName());
-//
-//                    if (theEmp instanceof FTE) {
-//                        FTE theFTE = (FTE) theEmp;
-//                        System.out.println("    That employee has gross yearly salary $" + Double.toString(theFTE.getYearlySalary()));
-//                        System.out.println("    That employee has net yearly income $" + Double.toString(theFTE.calcAnnualNetIncome()));
-//                        
-//                        model.setValueAt("Full Time", empCounter, 0);
-//                        model.setValueAt(theFTE.getEmpNum(), empCounter, 1);
-//                        model.setValueAt(theFTE.getFirstName(), empCounter, 2);
-//                        model.setValueAt(theFTE.getLastName(), empCounter, 3);
-//                        String genderOutput = "N/A";
-//                        if(theFTE.getGender() == 0){
-//                            genderOutput = "Male";
-//                        }else if(theFTE.getGender() == 1){
-//                            genderOutput = "Female";
-//                        }else{
-//                            genderOutput = "Other";
-//                        }
-//                        model.setValueAt(genderOutput, empCounter, 4);
-//                        String workLocOutput = "N/A";
-//                        if(theFTE.getWorkLoc() == 0){
-//                            workLocOutput = "Mississauga";
-//                        }else if(theFTE.getWorkLoc() == 1){
-//                            workLocOutput = "Toronto";
-//                        }else{
-//                            workLocOutput = "Markham";
-//                        }
-//                        model.setValueAt(workLocOutput, empCounter, 5);
-//                        model.setValueAt(theFTE.getDeductRate() * 100 + "%", empCounter, 6);
-//                        model.setValueAt(theFTE.getYearlySalary(), empCounter, 7);
-//                        model.setValueAt("N/A", empCounter, 8);
-//                        model.setValueAt("N/A", empCounter, 9);
-//                        model.setValueAt("N/A", empCounter, 10);
-//                    }
-//                    
-//                    if (theEmp instanceof PTE) {
-//                        PTE thePTE = (PTE) theEmp;
-//                        System.out.println("    That employee has hourly wage $" + Double.toString(thePTE.hourlyWage));
-//                        System.out.println("    That employee has hours per week " + Double.toString(thePTE.hoursPerWeek));
-//                        System.out.println("    That employee has weeks per year " + Double.toString(thePTE.weeksPerYear));
-//                        
-//                        model.setValueAt("Part Time", empCounter, 0);
-//                        model.setValueAt(thePTE.getEmpNum(), empCounter, 1);
-//                        model.setValueAt(thePTE.getFirstName(), empCounter, 2);
-//                        model.setValueAt(thePTE.getLastName(), empCounter, 3);
-//                        String genderOutput = "N/A";
-//                        if(thePTE.getGender() == 0){
-//                            genderOutput = "Male";
-//                        }else if(thePTE.getGender() == 1){
-//                            genderOutput = "Female";
-//                        }else{
-//                            genderOutput = "Other";
-//                        }
-//                        model.setValueAt(genderOutput, empCounter, 4);
-//                        String workLocOutput = "N/A";
-//                        if(thePTE.getWorkLoc() == 0){
-//                            workLocOutput = "Mississauga";
-//                        }else if(thePTE.getWorkLoc() == 1){
-//                            workLocOutput = "Toronto";
-//                        }else{
-//                            workLocOutput = "Markham";
-//                        }
-//                        model.setValueAt(workLocOutput, empCounter, 5);
-//                        model.setValueAt(thePTE.getDeductRate() * 100 + "%", empCounter, 6);
-//                        model.setValueAt("N/A", empCounter, 7);
-//                        model.setValueAt(thePTE.getHourlyWage(), empCounter, 8);
-//                        model.setValueAt(thePTE.getHoursPerWeek(), empCounter, 9);
-//                        model.setValueAt(thePTE.getWeeksPerYear(), empCounter, 10);
-//
-//                   }
-//                }
-            
-//            }           
-//        }
+//                    EmployeeInfo theEmp = mainHT.buckets[i].get(j);
 
-//        else {
-//            System.out.println("Nothing in the HT!  Too bad so sad :-(");
-//        }
-//        
-//        System.out.println("\nTABLE ROW COUNT " + jTable1.getRowCount());
-//        System.out.println("\nTABLE COLUMN COUNT " + jTable1.getColumnCount());
+        try {
+            int theEmpNum = Integer.parseInt(jTextField1.getText());
+            EmployeeInfo theEmp = mainHT.returnByEmployeeNumber(theEmpNum, false);
+            if(theEmp != null){
+                String theFirstName = theEmp.firstName;
+                String theLastName = theEmp.lastName;
+                jLabel4.setForeground(new Color(0, 150, 0));
+                jLabel4.setText("Found Employee!");       
+                jLabel4.setVisible(true);
+//
+                jTextField1.setText("");
+
+                empCounter++;
+            
+                    
+                System.out.println("  Employee number " + Integer.toString(theEmp.getEmpNum()));
+                System.out.println("  First name, last name : " + theEmp.getFirstName() + " " + theEmp.getLastName());
+
+                if (theEmp instanceof FTE) {
+                    FTE theFTE = (FTE) theEmp;
+                    System.out.println("    That employee has gross yearly salary $" + Double.toString(theFTE.getYearlySalary()));
+                    System.out.println("    That employee has net yearly income $" + Double.toString(theFTE.calcAnnualNetIncome()));
+
+                    model.setValueAt("Full Time", empCounter, 0);
+                    model.setValueAt(theFTE.getEmpNum(), empCounter, 1);
+                    model.setValueAt(theFTE.getFirstName(), empCounter, 2);
+                    model.setValueAt(theFTE.getLastName(), empCounter, 3);
+                    String genderOutput = "N/A";
+                    if(theFTE.getGender() == 0){
+                        genderOutput = "Male";
+                    }else if(theFTE.getGender() == 1){
+                        genderOutput = "Female";
+                    }else{
+                        genderOutput = "Other";
+                    }
+                    model.setValueAt(genderOutput, empCounter, 4);
+                    String workLocOutput = "N/A";
+                    if(theFTE.getWorkLoc() == 0){
+                        workLocOutput = "Mississauga";
+                    }else if(theFTE.getWorkLoc() == 1){
+                        workLocOutput = "Toronto";
+                    }else{
+                        workLocOutput = "Markham";
+                    }
+                    model.setValueAt(workLocOutput, empCounter, 5);
+                    model.setValueAt(theFTE.getDeductRate() * 100 + "%", empCounter, 6);
+                    model.setValueAt(theFTE.getYearlySalary(), empCounter, 7);
+                    model.setValueAt("N/A", empCounter, 8);
+                    model.setValueAt("N/A", empCounter, 9);
+                    model.setValueAt("N/A", empCounter, 10);
+                }
+
+                if (theEmp instanceof PTE) {
+                    PTE thePTE = (PTE) theEmp;
+                    System.out.println("    That employee has hourly wage $" + Double.toString(thePTE.hourlyWage));
+                    System.out.println("    That employee has hours per week " + Double.toString(thePTE.hoursPerWeek));
+                    System.out.println("    That employee has weeks per year " + Double.toString(thePTE.weeksPerYear));
+
+                    model.setValueAt("Part Time", empCounter, 0);
+                    model.setValueAt(thePTE.getEmpNum(), empCounter, 1);
+                    model.setValueAt(thePTE.getFirstName(), empCounter, 2);
+                    model.setValueAt(thePTE.getLastName(), empCounter, 3);
+                    String genderOutput = "N/A";
+                    if(thePTE.getGender() == 0){
+                        genderOutput = "Male";
+                    }else if(thePTE.getGender() == 1){
+                        genderOutput = "Female";
+                    }else{
+                        genderOutput = "Other";
+                    }
+                    model.setValueAt(genderOutput, empCounter, 4);
+                    String workLocOutput = "N/A";
+                    if(thePTE.getWorkLoc() == 0){
+                        workLocOutput = "Mississauga";
+                    }else if(thePTE.getWorkLoc() == 1){
+                        workLocOutput = "Toronto";
+                    }else{
+                        workLocOutput = "Markham";
+                    }
+                    model.setValueAt(workLocOutput, empCounter, 5);
+                    model.setValueAt(thePTE.getDeductRate() * 100 + "%", empCounter, 6);
+                    model.setValueAt("N/A", empCounter, 7);
+                    model.setValueAt(thePTE.getHourlyWage(), empCounter, 8);
+                    model.setValueAt(thePTE.getHoursPerWeek(), empCounter, 9);
+                    model.setValueAt(thePTE.getWeeksPerYear(), empCounter, 10);
+
+               }
+            }else{
+                jLabel4.setForeground(Color.RED);
+                jLabel4.setText("No Employee Found!");
+                jLabel4.setVisible(true);
+            }
+           
+        }catch(Exception e) {
+            jLabel4.setForeground(Color.RED);
+            jLabel4.setText("Invalid information!");
+            jLabel4.setVisible(true);
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
