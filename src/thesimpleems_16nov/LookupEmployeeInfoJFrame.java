@@ -85,7 +85,7 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                                                     "Gender",
                                                     "Work Loc",
                                                     "Deduct Rate",
-                                                    "Yearly Salary", 
+                                                    "Yearly Salary ($)", 
                                                     "Hourly Wage", 
                                                     "Hours per Week", 
                                                     "Weeks per Year"},
@@ -150,8 +150,8 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jButton1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(63, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
