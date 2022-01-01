@@ -193,7 +193,7 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                 String theFirstName = theEmp.firstName;
                 String theLastName = theEmp.lastName;
                 jLabel4.setForeground(new Color(0, 150, 0));
-                jLabel4.setText("Found Employee!");       
+                jLabel4.setText("Employee Found!");       
                 jLabel4.setVisible(true);
 //
                 jTextField1.setText("");
