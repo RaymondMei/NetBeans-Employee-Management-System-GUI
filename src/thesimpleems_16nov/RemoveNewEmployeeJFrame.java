@@ -41,7 +41,7 @@ public class RemoveNewEmployeeJFrame extends javax.swing.JFrame {
                 changed();
             }
             public void changed() {
-                boolean jTF1empty = jTextField1.getText().isEmpty();
+                boolean jTF1empty = jTextField1.getText().isBlank();
                 if(jTF1empty){
                     jButton1.setEnabled(false);
                 }else {
