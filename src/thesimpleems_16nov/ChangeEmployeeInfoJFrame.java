@@ -20,7 +20,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
     
     
     private MyHashTable mainHT;  // This contains the ref value for theHT of MainJFrame.
-    
+    private EmployeeInfo originalEmp;
     
 
     /**
@@ -42,12 +42,15 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 changed();
             }
             public void changed() {
+                jButton3.setEnabled(false);
                 boolean jTF1empty = searchField.getText().isBlank();
                 if(jTF1empty){
                     jButton1.setEnabled(false);
                 }else {
                     jButton1.setEnabled(true);
                 }
+                jLabel4.setForeground(Color.BLACK);
+                jLabel4.setText("Please press search again");
             }
         });
         
@@ -282,14 +285,13 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
         });
 
         jButton3.setText("Change");
-        jButton3.setEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3addTheNewEmployee(evt);
             }
         });
 
-        jLabel2.setText("Employee Number");
+        jLabel2.setText("NEW Employee Number");
         jLabel2.setToolTipText("Enter a six digit employee number (e.g. 123456)");
 
         jLabel7.setText("Employee added!");
@@ -383,10 +385,10 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                             .addComponent(genderFButton)
                             .addComponent(genderMButton)
                             .addComponent(genderOButton))
-                        .addGap(11, 11, 11)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
                         .addGap(19, 19, 19)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -467,7 +469,9 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
         try {
             int theEmpNum = Integer.parseInt(searchField.getText());
             EmployeeInfo returnedEmpInfo = mainHT.returnByEmployeeNumber(theEmpNum, false);
+            originalEmp = returnedEmpInfo;
             if(returnedEmpInfo != null){
+                jButton3.setEnabled(true);
                 String theFirstName = returnedEmpInfo.firstName;
                 String theLastName = returnedEmpInfo.lastName;
                 jLabel4.setForeground(new Color(0, 150, 0));
@@ -475,14 +479,12 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                                 + theFirstName + " " + theLastName);       
                 jLabel4.setVisible(true);
 
-                searchField.setText("");
+//                searchField.setText("");
                 jPanel1.setVisible(true);
                 pack();
                 
                 // Filling existing info/values
                 fillFields(returnedEmpInfo);
-                
-                
                 
             }else{
                 jLabel4.setForeground(Color.RED);
@@ -580,7 +582,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         // try catches any error such as if you entered a string for theEmpNum
         try {
-            int theEmpNum = Integer.parseInt(searchField.getText());
+            int theEmpNum = Integer.parseInt(jTextField1.getText());
             String theFirstName = jTextField2.getText();
             String theLastName = jTextField3.getText();
             int gender; String genderOutput;
@@ -602,12 +604,17 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 throw new IOException("Invalid Deduct Rate!");
             }
 
+                    
             EmployeeInfo returnedEmp = mainHT.returnByEmployeeNumber(theEmpNum, false);
-            if(returnedEmp != null){ // Checks if Employee ID already exists
-                searchField.setBackground(Color.RED);
+            if(returnedEmp != null && originalEmp.empNum != theEmpNum){ // Checks if Employee ID already exists
+                jTextField1.setBackground(Color.RED);
                 throw new IOException("Employee ID already exists!");
             }
-
+            
+            //REMOVE THEN ADD BACK EMPLOYEE WITH CHANGED INFO 
+            mainHT.returnByEmployeeNumber(originalEmp.empNum, true);
+ 
+            
             FTE theFTE;
             PTE thePTE;
 
@@ -644,26 +651,26 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             //            FTE theFTE = new FTE(theEmpNum, theFirstName, theLastName,
                 //                            gender, workLoc, deductRate, 80000.00);
             //            mainHT.addEmployee(theFTE);
-            jLabel4.setForeground(Color.BLACK);
-            jLabel4.setText("Added new employee: " + searchField.getText() + " "
+            jLabel7.setForeground(Color.BLACK);
+            jLabel7.setText("Added new employee: " + jTextField1.getText() + " "
                 + theFirstName + " " + theLastName);
             jLabel9.setText("Gender: " + genderOutput + ", Work location: " + workLocOutput + ", Deduct Rate: " + deductRate * 100 + "%");
-            jLabel4.setVisible(true);
+            jLabel7.setVisible(true);
             jLabel9.setVisible(true);
 
             // resets fields to add another employee
-            searchField.setText("");
-            jTextField2.setText("");
-            jTextField3.setText("");
-            jTextField4.setText("");
-            jTextField6.setText("");
-            jTextField7.setText("");
-            jTextField8.setText("");
-            genderMButton.setSelected(false);
-            genderFButton.setSelected(false);
-            genderOButton.setSelected(false);
-            jComboBox1.setSelectedIndex(0);
-            jTextField5.setText("");
+//            jTextField1.setText("");
+//            jTextField2.setText("");
+//            jTextField3.setText("");
+//            jTextField4.setText("");
+//            jTextField6.setText("");
+//            jTextField7.setText("");
+//            jTextField8.setText("");
+//            genderMButton.setSelected(false);
+//            genderFButton.setSelected(false);
+//            genderOButton.setSelected(false);
+//            jComboBox1.setSelectedIndex(0);
+//            jTextField5.setText("");
         }catch(Exception e) {
             jLabel9.setVisible(false);
             jLabel4.setForeground(Color.RED);
