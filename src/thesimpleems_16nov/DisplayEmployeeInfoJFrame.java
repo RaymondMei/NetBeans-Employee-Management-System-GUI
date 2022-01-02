@@ -1,5 +1,8 @@
 package thesimpleems_16nov;
 
+import java.awt.Color;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import thesimpleems_16nov.FTE;
 import javax.swing.table.*;
 
@@ -20,6 +23,8 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
     private MyHashTable mainHT;  // This contains the ref value for theHT of MainJFrame.
     
     private DefaultTableModel model;
+    
+    private int empCounter;
 
     
     // CONSTRUCTORS
@@ -28,14 +33,7 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
      */
     public DisplayEmployeeInfoJFrame() {
         initComponents();
-        /*
-        model.addColumn("Status");
-        model.addColumn("Employee Number");
-        model.addColumn("First Name");
-        model.addColumn("Last Name");
-        */
-        //System.out.println("\n\nmodel row count is " + model.getRowCount());
-
+        
     }
     
     
@@ -45,6 +43,113 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
     public void setMainHT(MyHashTable refvalForHT) {
         mainHT = refvalForHT;
         System.out.println("HERE HERE HERE HERE");
+        initModel();
+    }
+    public void initModel(){
+        int numInHT = mainHT.getNumInHashTable();
+        
+        model = new DefaultTableModel(new Object[] {"Status",
+                                                    "Employee Num",
+                                                    "First Name",
+                                                    "Last Name",
+                                                    "Gender",
+                                                    "Work Loc",
+                                                    "Deduct Rate",
+                                                    "Yearly Salary ($)", 
+                                                    "Hourly Wage", 
+                                                    "Hours per Week", 
+                                                    "Weeks per Year"},
+                                                    numInHT);
+        
+        jTable1.setModel(model);
+        jTable1.setAutoCreateColumnsFromModel(true);
+        jTable1.setRowHeight(40);
+        jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_ALL_COLUMNS);
+            
+        this.empCounter = -1; // Row position in table for the employee
+        
+        for (int i = 0; i < mainHT.buckets.length; i++) {
+            for (int j = 0; j < mainHT.buckets[i].size(); j++) {
+
+                EmployeeInfo theEmp = mainHT.buckets[i].get(j);
+//                EmployeeInfo theEmp = mainHT.returnByEmployeeNumber(theEmpNum, false);
+
+                empCounter++;
+
+                System.out.println("  Employee number " + Integer.toString(theEmp.getEmpNum()));
+                System.out.println("  First name, last name : " + theEmp.getFirstName() + " " + theEmp.getLastName());
+
+                if (theEmp instanceof FTE) {
+                    FTE theFTE = (FTE) theEmp;
+                    System.out.println("    That employee has gross yearly salary $" + Double.toString(theFTE.getYearlySalary()));
+                    System.out.println("    That employee has net yearly income $" + Double.toString(theFTE.calcAnnualNetIncome()));
+
+                    model.setValueAt("Full Time", empCounter, 0);
+                    model.setValueAt(theFTE.getEmpNum(), empCounter, 1);
+                    model.setValueAt(theFTE.getFirstName(), empCounter, 2);
+                    model.setValueAt(theFTE.getLastName(), empCounter, 3);
+                    String genderOutput = "N/A";
+                    if(theFTE.getGender() == 0){
+                        genderOutput = "Male";
+                    }else if(theFTE.getGender() == 1){
+                        genderOutput = "Female";
+                    }else{
+                        genderOutput = "Other";
+                    }
+                    model.setValueAt(genderOutput, empCounter, 4);
+                    String workLocOutput = "N/A";
+                    if(theFTE.getWorkLoc() == 0){
+                        workLocOutput = "Mississauga";
+                    }else if(theFTE.getWorkLoc() == 1){
+                        workLocOutput = "Toronto";
+                    }else{
+                        workLocOutput = "Markham";
+                    }
+                    model.setValueAt(workLocOutput, empCounter, 5);
+                    model.setValueAt(theFTE.getDeductRate() * 100 + "%", empCounter, 6);
+                    model.setValueAt(theFTE.getYearlySalary(), empCounter, 7);
+                    model.setValueAt("N/A", empCounter, 8);
+                    model.setValueAt("N/A", empCounter, 9);
+                    model.setValueAt("N/A", empCounter, 10);
+                }
+
+                if (theEmp instanceof PTE) {
+                    PTE thePTE = (PTE) theEmp;
+                    System.out.println("    That employee has hourly wage $" + Double.toString(thePTE.hourlyWage));
+                    System.out.println("    That employee has hours per week " + Double.toString(thePTE.hoursPerWeek));
+                    System.out.println("    That employee has weeks per year " + Double.toString(thePTE.weeksPerYear));
+
+                    model.setValueAt("Part Time", empCounter, 0);
+                    model.setValueAt(thePTE.getEmpNum(), empCounter, 1);
+                    model.setValueAt(thePTE.getFirstName(), empCounter, 2);
+                    model.setValueAt(thePTE.getLastName(), empCounter, 3);
+                    String genderOutput = "N/A";
+                    if(thePTE.getGender() == 0){
+                        genderOutput = "Male";
+                    }else if(thePTE.getGender() == 1){
+                        genderOutput = "Female";
+                    }else{
+                        genderOutput = "Other";
+                    }
+                    model.setValueAt(genderOutput, empCounter, 4);
+                    String workLocOutput = "N/A";
+                    if(thePTE.getWorkLoc() == 0){
+                        workLocOutput = "Mississauga";
+                    }else if(thePTE.getWorkLoc() == 1){
+                        workLocOutput = "Toronto";
+                    }else{
+                        workLocOutput = "Markham";
+                    }
+                    model.setValueAt(workLocOutput, empCounter, 5);
+                    model.setValueAt(thePTE.getDeductRate() * 100 + "%", empCounter, 6);
+                    model.setValueAt("N/A", empCounter, 7);
+                    model.setValueAt(thePTE.getHourlyWage(), empCounter, 8);
+                    model.setValueAt(thePTE.getHoursPerWeek(), empCounter, 9);
+                    model.setValueAt(thePTE.getWeeksPerYear(), empCounter, 10);
+
+                }
+            }
+        }
     }
 
     /**
@@ -56,19 +161,10 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jButton1.setText("Display number of items in the hash table");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jTable1.setAutoCreateColumnsFromModel(false);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -79,7 +175,8 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
 
             }
         ));
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTable1.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -87,95 +184,20 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(368, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(45, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-        int numInHT = mainHT.getNumInHashTable();
-        
-        model = new DefaultTableModel(new Object[] {"Status",
-                                                    "Emp Num",
-                                                    "First Name",
-                                                    "Last Name"},
-                                                    numInHT);
-        jTable1.setModel(model);
-        jTable1.setAutoCreateColumnsFromModel(true);
-            
-        int empCounter = -1; // Row position in table for the employee
-        
-        jTextField1.setText(Integer.toString(numInHT));
-        System.out.println("");
-        System.out.println("Number of employees in the HT is " + numInHT);
-        
-        if (numInHT > 0) {
-            System.out.println("Here are the employees:");
-            for (int i = 0; i < mainHT.buckets.length; i++) {
-                for (int j = 0; j < mainHT.buckets[i].size(); j++) {
-                    
-                    EmployeeInfo theEmp = mainHT.buckets[i].get(j);
-                    
-                    empCounter++;
-                    
-                    System.out.println("  Employee number " + Integer.toString(theEmp.getEmpNum()));
-                    System.out.println("  First name, last name : " + theEmp.getFirstName() + " " + theEmp.getLastName());
-
-                    if (theEmp instanceof FTE) {
-                        FTE theFTE = (FTE) theEmp;
-                        System.out.println("    That employee has gross yearly salary $" + Double.toString(theFTE.getYearlySalary()));
-                        System.out.println("    That employee has net yearly income $" + Double.toString(theFTE.calcAnnualNetIncome()));
-                        
-                        model.setValueAt("Full Time", empCounter, 0);
-                        model.setValueAt(theEmp.getEmpNum(), empCounter, 1);
-                        model.setValueAt(theEmp.getFirstName(), empCounter, 2);
-                        model.setValueAt(theEmp.getLastName(), empCounter, 3);
-                    }
-                    
-                    if (theEmp instanceof PTE) {
-                        PTE thePTE = (PTE) theEmp;
-                        System.out.println("    That employee has hourly wage $" + Double.toString(thePTE.hourlyWage));
-                        System.out.println("    That employee has hours per week " + Double.toString(thePTE.hoursPerWeek));
-                        System.out.println("    That employee has weeks per year " + Double.toString(thePTE.weeksPerYear));
-                        
-                        model.setValueAt("Part Time", empCounter, 0);
-                        model.setValueAt(theEmp.getEmpNum(), empCounter, 1);
-                        model.setValueAt(theEmp.getFirstName(), empCounter, 2);
-                        model.setValueAt(theEmp.getLastName(), empCounter, 3);
-
-                   }
-                }
-            
-            }           
-        }
-
-        else {
-            System.out.println("Nothing in the HT!  Too bad so sad :-(");
-        }
-        
-        System.out.println("\nTABLE ROW COUNT " + jTable1.getRowCount());
-        System.out.println("\nTABLE COLUMN COUNT " + jTable1.getColumnCount());
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,6 +228,18 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -216,9 +250,7 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

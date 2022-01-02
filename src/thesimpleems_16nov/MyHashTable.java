@@ -91,6 +91,7 @@ public class MyHashTable {
                     EmployeeInfo emp = buckets[targetBucket].get(j);
                     if(remove){
                         buckets[targetBucket].remove(j);
+                        numInHashTable--;
                     }
                     return emp;
                 }

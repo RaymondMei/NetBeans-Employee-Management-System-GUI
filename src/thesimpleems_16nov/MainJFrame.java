@@ -73,7 +73,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        tempJButton3.setText("Add new employee");
+        tempJButton3.setText("Display All Employees");
         tempJButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pressed_tempJButton3(evt);
@@ -139,9 +139,10 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(tempJButton2)
                     .addComponent(tempJButton1)
-                    .addComponent(tempJButton3))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(tempJButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tempJButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -193,7 +194,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private void tempJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tempJButton2ActionPerformed
         // TODO add your handling code here:
         
-        DisplayEmployeeInfoJFrame theSeparateJFrame = new DisplayEmployeeInfoJFrame();
+        BACKUPDisplayEmployeeInfoJFrame theSeparateJFrame = new BACKUPDisplayEmployeeInfoJFrame();
         theSeparateJFrame.setVisible(true);
         //MyHashTable refVal = getTheHT();
         //MyHashTable refVal = theHT;
@@ -202,10 +203,10 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void pressed_tempJButton3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pressed_tempJButton3
         // TODO add your handling code here:
-        AddNewEmployeeJFrame theANEJFrame = new AddNewEmployeeJFrame();
-        theANEJFrame.setVisible(true);
+        DisplayEmployeeInfoJFrame newDEIJFrame = new DisplayEmployeeInfoJFrame();
+        newDEIJFrame.setVisible(true);
         MyHashTable refVal = getTheHT();
-        theANEJFrame.setMainHT(refVal);
+        newDEIJFrame.setMainHT(refVal);
     }//GEN-LAST:event_pressed_tempJButton3
 
     private void removeEmpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEmpButtonActionPerformed

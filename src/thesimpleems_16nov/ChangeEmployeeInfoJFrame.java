@@ -611,8 +611,10 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 throw new IOException("Employee ID already exists!");
             }
             
-            //REMOVE THEN ADD BACK EMPLOYEE WITH CHANGED INFO 
+            //REMOVE THEN ADD BACK EMPLOYEE WITH CHANGED INFO
             mainHT.returnByEmployeeNumber(originalEmp.empNum, true);
+            searchField.setText(String.valueOf(theEmpNum));
+            
  
             
             FTE theFTE;
@@ -632,6 +634,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 theFTE = new FTE(theEmpNum, theFirstName, theLastName,
                     gender, workLoc, deductRate, yearlySalary);
                 mainHT.addEmployee(theFTE);
+                originalEmp = theFTE;
             }else if(jTabbedPane1.getSelectedIndex() == 1){
                 if(!jTextField6.getText().isBlank()){
                     hourlyWage = Double.parseDouble(jTextField6.getText());
@@ -645,6 +648,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 thePTE = new PTE(theEmpNum, theFirstName, theLastName, gender,
                     workLoc, deductRate, hourlyWage, hoursPerWeek, weeksPerYear);
                 mainHT.addEmployee(thePTE);
+                originalEmp = thePTE;
             }
 
             // prints information of employee recently added
