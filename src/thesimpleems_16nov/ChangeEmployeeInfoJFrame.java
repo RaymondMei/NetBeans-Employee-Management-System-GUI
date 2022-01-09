@@ -109,7 +109,6 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -149,6 +148,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jTextField1.setColumns(10);
         jTextField1.setToolTipText("Enter a six digit employee number (E.g. 123456)");
         jTextField1.setActionCommand("null");
         jTextField1.setMinimumSize(new java.awt.Dimension(60, 20));
@@ -158,6 +158,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             }
         });
 
+        jTextField2.setColumns(10);
         jTextField2.setMinimumSize(new java.awt.Dimension(60, 20));
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,6 +168,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jLabel8.setText("Deduct Rate [0, 1]");
 
+        jTextField3.setColumns(10);
         jTextField3.setMinimumSize(new java.awt.Dimension(60, 20));
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +182,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jLabel10.setText("Yearly Salary");
 
+        jTextField4.setColumns(10);
         jTextField4.setToolTipText("E.g. 75000");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -209,6 +212,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jLabel11.setText("Hourly Wage");
 
+        jTextField6.setColumns(10);
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
@@ -217,7 +221,11 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jLabel12.setText("Hours per Week");
 
+        jTextField7.setColumns(10);
+
         jLabel13.setText("Weeks per Year");
+
+        jTextField8.setColumns(10);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -298,13 +306,6 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jLabel3.setText("First Name");
 
-        jButton4.setText("Exit");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4exitAddNewEmployee(evt);
-            }
-        });
-
         jLabel14.setText("Last Name");
 
         jLabel15.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
@@ -319,11 +320,9 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
+                    .addComponent(jButton3)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -348,13 +347,8 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel6))
                         .addGap(50, 50, 50)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(49, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addGap(52, 52, 52))))
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel15)
@@ -401,9 +395,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addGap(14, 14, 14)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                .addComponent(jButton3)
                 .addGap(31, 31, 31))
         );
 
@@ -414,25 +406,22 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(113, 113, 113)
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18))
+                        .addContainerGap()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1)
                         .addGap(131, 131, 131)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButton2)))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -579,7 +568,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
     private void jButton3addTheNewEmployee(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3addTheNewEmployee
         // TODO add your handling code here:
-
+        EmployeeInfo backup = null;
         // try catches any error such as if you entered a string for theEmpNum
         try {
             int theEmpNum = Integer.parseInt(jTextField1.getText());
@@ -611,8 +600,9 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 throw new IOException("Employee ID already exists!");
             }
             
+            
             //REMOVE THEN ADD BACK EMPLOYEE WITH CHANGED INFO
-            mainHT.returnByEmployeeNumber(originalEmp.empNum, true);
+            backup = mainHT.returnByEmployeeNumber(originalEmp.empNum, true);
             searchField.setText(String.valueOf(theEmpNum));
             
  
@@ -680,14 +670,13 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             jLabel4.setForeground(Color.RED);
             jLabel4.setText("Invalid Information or Employee ID already exists!");
             jLabel4.setVisible(true);
+            EmployeeInfo returnedEmp = mainHT.returnByEmployeeNumber(backup.empNum, false);
+            if(returnedEmp == null){ // Checks if Employee already exists
+                mainHT.addEmployee(backup);
+            }
         }
 
     }//GEN-LAST:event_jButton3addTheNewEmployee
-
-    private void jButton4exitAddNewEmployee(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4exitAddNewEmployee
-        // TODO add your handling code here:
-        this.dispose(); // Make this window disappear
-    }//GEN-LAST:event_jButton4exitAddNewEmployee
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -737,7 +726,6 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
