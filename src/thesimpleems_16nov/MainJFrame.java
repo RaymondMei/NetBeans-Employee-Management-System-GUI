@@ -66,7 +66,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        tempJButton2.setText("Display number of employees");
+        tempJButton2.setText("Clear Stored Employees");
         tempJButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tempJButton2ActionPerformed(evt);
@@ -194,11 +194,11 @@ public class MainJFrame extends javax.swing.JFrame {
     private void tempJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tempJButton2ActionPerformed
         // TODO add your handling code here:
         
-        BACKUPDisplayEmployeeInfoJFrame theSeparateJFrame = new BACKUPDisplayEmployeeInfoJFrame();
-        theSeparateJFrame.setVisible(true);
-        //MyHashTable refVal = getTheHT();
-        //MyHashTable refVal = theHT;
-        theSeparateJFrame.setMainHT(theHT);  // Have theSeparateJFrame mainHT point to the real HT.
+//        BACKUPDisplayEmployeeInfoJFrame theSeparateJFrame = new BACKUPDisplayEmployeeInfoJFrame();
+//        theSeparateJFrame.setVisible(true);
+//        //MyHashTable refVal = getTheHT();
+//        //MyHashTable refVal = theHT;
+//        theSeparateJFrame.setMainHT(theHT);  // Have theSeparateJFrame mainHT point to the real HT.
     }//GEN-LAST:event_tempJButton2ActionPerformed
 
     private void pressed_tempJButton3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pressed_tempJButton3

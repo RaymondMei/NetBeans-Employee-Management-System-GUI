@@ -53,12 +53,13 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
                                                     "First Name",
                                                     "Last Name",
                                                     "Gender",
-                                                    "Work Loc",
+                                                    "Work Loc.",
                                                     "Deduct Rate",
-                                                    "Yearly Salary ($)", 
+                                                    "Yearly Salary", 
                                                     "Hourly Wage", 
                                                     "Hours per Week", 
-                                                    "Weeks per Year"},
+                                                    "Weeks per Year",
+                                                    "Net Ann. Income"},
                                                     numInHT);
         
         jTable1.setModel(model);
@@ -67,6 +68,8 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
         jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_ALL_COLUMNS);
             
         this.empCounter = -1; // Row position in table for the employee
+        
+        jLabel1.setText("Number of Employees: " + numInHT);
         
         for (int i = 0; i < mainHT.buckets.length; i++) {
             for (int j = 0; j < mainHT.buckets[i].size(); j++) {
@@ -111,6 +114,9 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
                     model.setValueAt("N/A", empCounter, 8);
                     model.setValueAt("N/A", empCounter, 9);
                     model.setValueAt("N/A", empCounter, 10);
+                    
+                    double netAnnInc = theFTE.getYearlySalary() * (1 - theFTE.getDeductRate());
+                    model.setValueAt(netAnnInc, empCounter, 11);
                 }
 
                 if (theEmp instanceof PTE) {
@@ -147,6 +153,9 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
                     model.setValueAt(thePTE.getHoursPerWeek(), empCounter, 9);
                     model.setValueAt(thePTE.getWeeksPerYear(), empCounter, 10);
 
+                    double grossAnnInc = thePTE.getHourlyWage() * thePTE.getHoursPerWeek() * thePTE.getWeeksPerYear();
+                    double netAnnInc = grossAnnInc * (1 - thePTE.getDeductRate());
+                    model.setValueAt(netAnnInc, empCounter, 11);
                 }
             }
         }
@@ -163,6 +172,7 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -179,21 +189,28 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
         jTable1.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        jLabel1.setText("Number of Employees: 0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1170, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(45, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -250,6 +267,7 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

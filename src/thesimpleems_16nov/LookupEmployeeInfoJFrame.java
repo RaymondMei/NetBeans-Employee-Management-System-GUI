@@ -83,12 +83,13 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                                                     "First Name",
                                                     "Last Name",
                                                     "Gender",
-                                                    "Work Loc",
+                                                    "Work Loc.",
                                                     "Deduct Rate",
-                                                    "Yearly Salary ($)", 
+                                                    "Yearly Salary", 
                                                     "Hourly Wage", 
                                                     "Hours per Week", 
-                                                    "Weeks per Year"},
+                                                    "Weeks per Year",
+                                                    "Net Ann. Income"},
                                                     numInHT);
         model.setRowCount(1);
         jTable1.setModel(model);
@@ -150,17 +151,17 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jButton1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
+                .addContainerGap(70, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addComponent(jButton1)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,6 +237,9 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                     model.setValueAt("N/A", empCounter, 8);
                     model.setValueAt("N/A", empCounter, 9);
                     model.setValueAt("N/A", empCounter, 10);
+                    
+                    double netAnnInc = theFTE.getYearlySalary() * (1 - theFTE.getDeductRate());
+                    model.setValueAt(netAnnInc, empCounter, 11);
                 }
 
                 if (theEmp instanceof PTE) {
@@ -271,7 +275,10 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                     model.setValueAt(thePTE.getHourlyWage(), empCounter, 8);
                     model.setValueAt(thePTE.getHoursPerWeek(), empCounter, 9);
                     model.setValueAt(thePTE.getWeeksPerYear(), empCounter, 10);
-
+                    
+                    double grossAnnInc = thePTE.getHourlyWage() * thePTE.getHoursPerWeek() * thePTE.getWeeksPerYear();
+                    double netAnnInc = grossAnnInc * (1 - thePTE.getDeductRate());
+                    model.setValueAt(netAnnInc, empCounter, 11);
                }
             }else{
                 jLabel4.setForeground(Color.RED);

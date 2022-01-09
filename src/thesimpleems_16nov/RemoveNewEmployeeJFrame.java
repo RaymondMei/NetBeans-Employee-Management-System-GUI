@@ -179,6 +179,7 @@ public class RemoveNewEmployeeJFrame extends javax.swing.JFrame {
             }
            
         }catch(Exception e) {
+            jLabel4.setForeground(Color.RED);
             jLabel4.setText("Invalid information!");
             jLabel4.setVisible(true);
         }        
