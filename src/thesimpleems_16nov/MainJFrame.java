@@ -45,22 +45,27 @@ public class MainJFrame extends javax.swing.JFrame {
         theHT = new MyHashTable(10);
         System.out.println("Created HashTable");
         
-        if(light){
-            jToggleButton1.setText("Light");
-        }else{
-            jToggleButton1.setText("Dark");
-        }
+        
         
         // Reading from database file
         try {
             Scanner sc = new Scanner(new FileReader("database.txt"));
+            
+            if(sc.hasNextLine()){
+                String lightdark = sc.nextLine();
+                if(lightdark.equals("Light")){
+                    light = true;
+                }else{
+                    light = false;
+                }
+            }
             
             String line = null;
             String[] values;
             
             while(sc.hasNextLine()){
                 line = sc.nextLine();
-                System.err.println(line);
+                System.out.println(line);
                 values = line.split("\\|"); // splits with |
                 for(int i=0; i<values.length; i++)  {
                     values[i] = values[i].replaceAll("!@!", "\\|");
@@ -116,7 +121,25 @@ public class MainJFrame extends javax.swing.JFrame {
             System.err.println("File Not Found!");
         }
         
-        
+        if(light){
+            try {
+                jToggleButton1.setText("Light");
+                UIManager.setLookAndFeel(new FlatLightLaf());
+                SwingUtilities.updateComponentTreeUI(this);
+                this.pack();
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            try {
+                jToggleButton1.setText("Dark");
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+                SwingUtilities.updateComponentTreeUI(this);
+                this.pack();
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
         
     }
@@ -306,6 +329,11 @@ public class MainJFrame extends javax.swing.JFrame {
         PrintWriter out = null;
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter("database.txt")));
+            if(light){
+                out.println("Light");
+            }else{
+                out.println("Dark");
+            }
         } catch (IOException ex) {
             Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -358,7 +386,11 @@ public class MainJFrame extends javax.swing.JFrame {
         PrintWriter out = null;
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter("database.txt")));
-            
+            if(light){
+                out.println("Light");
+            }else{
+                out.println("Dark");
+            }
             for (int i = 0; i < theHT.buckets.length; i++) {
                 for (int j = 0; j < theHT.buckets[i].size(); j++) {
                     EmployeeInfo emp = theHT.buckets[i].get(j);
