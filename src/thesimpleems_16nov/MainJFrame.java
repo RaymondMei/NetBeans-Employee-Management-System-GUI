@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -40,6 +42,9 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame() {
         initComponents();
         
+        theHT = new MyHashTable(10);
+        System.out.println("Created HashTable");
+        
         if(light){
             jToggleButton1.setText("Light");
         }else{
@@ -48,19 +53,71 @@ public class MainJFrame extends javax.swing.JFrame {
         
         // Reading from database file
         try {
-            BufferedReader br = new BufferedReader(new FileReader("database.json"));
+            Scanner sc = new Scanner(new FileReader("database.txt"));
             
+            String line = null;
+            String[] values;
             
-            br.close();
+            while(sc.hasNextLine()){
+                line = sc.nextLine();
+                System.err.println(line);
+                values = line.split("\\|"); // splits with |
+                for(int i=0; i<values.length; i++)  {
+                    values[i] = values[i].replaceAll("!@!", "\\|");
+                }
+                try{
+                    if(values[0].equals("FTE")){
+
+                        int theEmpNum = Integer.parseInt(values[1]);
+                        String theFirstName = values[2];
+                        String theLastName = values[3];
+                        int gender = Integer.parseInt(values[4]);
+                        int workLoc = Integer.parseInt(values[5]);
+                        
+                        double deductRate = Double.parseDouble(values[6]);
+
+                        FTE theFTE;
+
+                        double yearlySalary = Double.parseDouble(values[7]);
+                        theFTE = new FTE(theEmpNum, theFirstName, theLastName,
+                                    gender, workLoc, deductRate, yearlySalary);
+                        theHT.addEmployee(theFTE);
+
+                    }else if(values[0].equals("PTE")){
+
+                        int theEmpNum = Integer.parseInt(values[1]);
+                        String theFirstName = values[2];
+                        String theLastName = values[3];
+                        int gender = Integer.parseInt(values[4]);
+                        int workLoc = Integer.parseInt(values[5]);
+                        
+                        double deductRate = Double.parseDouble(values[6]);
+
+                        PTE thePTE;
+
+                        double hourlyWage = Double.parseDouble(values[7]);
+                        double hoursPerWeek = Double.parseDouble(values[8]);
+                        double weeksPerYear = Double.parseDouble(values[9]);
+
+                        thePTE = new PTE(theEmpNum, theFirstName, theLastName, gender,
+                        workLoc, deductRate, hourlyWage, hoursPerWeek, weeksPerYear);
+                        theHT.addEmployee(thePTE);
+                                                
+                    }
+
+
+                }catch(Exception e){
+                    continue;
+                }
+            }
+            
+            sc.close();
         } catch (FileNotFoundException ex) {
             System.err.println("File Not Found!");
-        } catch (IOException ex) {
-            System.err.println("Invalid File!");
         }
         
         
-        theHT = new MyHashTable(10);
-        System.out.println("Created HashTable");
+        
         
     }
     
@@ -88,8 +145,8 @@ public class MainJFrame extends javax.swing.JFrame {
         removeEmpButton = new javax.swing.JButton();
         getEmpInfoButton = new javax.swing.JButton();
         setEmpInfoButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -155,11 +212,6 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 28)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setLabelFor(this);
-        jLabel1.setText("HR Employee Management System");
-
         jToggleButton1.setSelected(true);
         jToggleButton1.setText("Dark");
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -167,6 +219,11 @@ public class MainJFrame extends javax.swing.JFrame {
                 jToggleButton1ActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 28)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setLabelFor(this);
+        jLabel1.setText("HR Employee Management System");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,13 +310,8 @@ public class MainJFrame extends javax.swing.JFrame {
             Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
+            System.exit(0);
         }
-//        BACKUPDisplayEmployeeInfoJFrame theSeparateJFrame = new BACKUPDisplayEmployeeInfoJFrame();
-//        theSeparateJFrame.setVisible(true);
-//        //MyHashTable refVal = getTheHT();
-//        //MyHashTable refVal = theHT;
-//        theSeparateJFrame.setMainHT(theHT);  // Have theSeparateJFrame mainHT point to the real HT.
-
     }//GEN-LAST:event_tempJButton2ActionPerformed
 
     private void pressed_tempJButton3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pressed_tempJButton3
@@ -306,7 +358,26 @@ public class MainJFrame extends javax.swing.JFrame {
         PrintWriter out = null;
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter("database.txt")));
-            out.println("YES");
+            
+            for (int i = 0; i < theHT.buckets.length; i++) {
+                for (int j = 0; j < theHT.buckets[i].size(); j++) {
+                    EmployeeInfo emp = theHT.buckets[i].get(j);
+                    
+                    if(emp instanceof FTE){
+                        emp.firstName = emp.firstName.replaceAll("\\|", "!@!");
+                        emp.lastName = emp.lastName.replaceAll("\\|", "!@!");
+                        out.println("FTE|" + emp.empNum + "|" + emp.firstName + "|" + emp.lastName + "|" +
+                                emp.gender + "|" + emp.workLoc + "|" + emp.deductRate + "|" + ((FTE) emp).getYearlySalary());
+                    }else if(emp instanceof PTE){
+                        emp.firstName = emp.firstName.replaceAll("\\|", "!@!");
+                        emp.lastName = emp.lastName.replaceAll("\\|", "!@!");
+                        out.println("PTE|" + emp.empNum + "|" + emp.firstName + "|" + emp.lastName + "|" +
+                                emp.gender + "|" + emp.workLoc + "|" + emp.deductRate + "|" + ((PTE) emp).getHourlyWage() +
+                                "|" + ((PTE) emp).getHoursPerWeek() + "|" + ((PTE) emp).getWeeksPerYear());
+                    }
+                }
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
