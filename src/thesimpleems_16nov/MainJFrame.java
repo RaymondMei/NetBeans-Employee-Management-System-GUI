@@ -1,6 +1,19 @@
 package thesimpleems_16nov;
 
+import com.formdev.flatlaf.*;
 import thesimpleems_16nov.FTE;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 /*
@@ -17,6 +30,7 @@ public class MainJFrame extends javax.swing.JFrame {
     
     // ATTRIBUTES
     public MyHashTable theHT;
+    boolean light = false;
     
     
     // CONSTRUCTORS
@@ -25,6 +39,25 @@ public class MainJFrame extends javax.swing.JFrame {
      */
     public MainJFrame() {
         initComponents();
+        
+        if(light){
+            jToggleButton1.setText("Light");
+        }else{
+            jToggleButton1.setText("Dark");
+        }
+        
+        // Reading from database file
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("database.json"));
+            
+            
+            br.close();
+        } catch (FileNotFoundException ex) {
+            System.err.println("File Not Found!");
+        } catch (IOException ex) {
+            System.err.println("Invalid File!");
+        }
+        
         
         theHT = new MyHashTable(10);
         System.out.println("Created HashTable");
@@ -56,8 +89,14 @@ public class MainJFrame extends javax.swing.JFrame {
         getEmpInfoButton = new javax.swing.JButton();
         setEmpInfoButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         tempJButton1.setText("Create three employees, add to hash table");
         tempJButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +105,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        tempJButton2.setText("Clear Stored Employees");
+        tempJButton2.setText("Clear Database");
         tempJButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tempJButton2ActionPerformed(evt);
@@ -121,6 +160,14 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel1.setLabelFor(this);
         jLabel1.setText("HR Employee Management System");
 
+        jToggleButton1.setSelected(true);
+        jToggleButton1.setText("Dark");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,6 +191,10 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(tempJButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(tempJButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToggleButton1)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +215,9 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(tempJButton2)
                 .addGap(18, 18, 18)
                 .addComponent(tempJButton3)
-                .addGap(63, 63, 63))
+                .addGap(16, 16, 16)
+                .addComponent(jToggleButton1)
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -193,12 +246,20 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void tempJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tempJButton2ActionPerformed
         // TODO add your handling code here:
-        
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter("database.txt")));
+        } catch (IOException ex) {
+            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            out.close();
+        }
 //        BACKUPDisplayEmployeeInfoJFrame theSeparateJFrame = new BACKUPDisplayEmployeeInfoJFrame();
 //        theSeparateJFrame.setVisible(true);
 //        //MyHashTable refVal = getTheHT();
 //        //MyHashTable refVal = theHT;
 //        theSeparateJFrame.setMainHT(theHT);  // Have theSeparateJFrame mainHT point to the real HT.
+
     }//GEN-LAST:event_tempJButton2ActionPerformed
 
     private void pressed_tempJButton3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pressed_tempJButton3
@@ -240,35 +301,58 @@ public class MainJFrame extends javax.swing.JFrame {
         newCEIJFrame.setMainHT(refVal);
     }//GEN-LAST:event_setEmpInfoButtonActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Writing to database file
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter("database.txt")));
+            out.println("YES");
+        } catch (IOException ex) {
+            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            out.close();
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        if(light){
+            try {
+                jToggleButton1.setText("Dark");
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+                SwingUtilities.updateComponentTreeUI(this);
+                this.pack();
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            try {
+                jToggleButton1.setText("Light");
+                UIManager.setLookAndFeel(new FlatLightLaf());
+                SwingUtilities.updateComponentTreeUI(this);
+                this.pack();
+            } catch (UnsupportedLookAndFeelException ex) {
+                Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        light = !light;
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
     
     
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+                
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
+        
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -282,6 +366,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton getEmpInfoButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton removeEmpButton;
     private javax.swing.JButton setEmpInfoButton;
     private javax.swing.JButton tempJButton1;

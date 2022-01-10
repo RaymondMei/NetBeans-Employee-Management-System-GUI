@@ -42,7 +42,6 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
                 changed();
             }
             public void changed() {
-                jTextField1.setBackground(Color.WHITE);
                 boolean jTF1empty = jTextField1.getText().isBlank();
                 boolean jTF2empty = jTextField2.getText().isBlank();
                 boolean jTF3empty = jTextField3.getText().isBlank();
@@ -131,7 +130,6 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
                 changed();
             }
             public void changed() {
-                jTextField5.setBackground(Color.WHITE);
                 boolean jTF1empty = jTextField1.getText().isBlank();
                 boolean jTF2empty = jTextField2.getText().isBlank();
                 boolean jTF3empty = jTextField3.getText().isBlank();
@@ -490,18 +488,18 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
             double deductRate = Double.parseDouble(jTextField5.getText());
             
             if(deductRate < 0 || deductRate > 1){
-                jTextField5.setBackground(Color.RED);
+//                jTextField5.setBackground(Color.RED);
                 throw new IOException("Invalid Deduct Rate!");
             }
             
             if(theEmpNum < 0 || theEmpNum > 999999){
-                jTextField1.setBackground(Color.RED);
+//                jTextField1.setBackground(Color.RED);
                 throw new IOException("Employee Number Out of Range!");
             }
             
             EmployeeInfo returnedEmp = mainHT.returnByEmployeeNumber(theEmpNum, false);
             if(returnedEmp != null){ // Checks if Employee ID already exists
-                jTextField1.setBackground(Color.RED);
+//                jTextField1.setBackground(Color.RED);
                 throw new IOException("Employee ID already exists!");
             }
             
@@ -541,7 +539,7 @@ public class AddNewEmployeeJFrame extends javax.swing.JFrame {
 //            FTE theFTE = new FTE(theEmpNum, theFirstName, theLastName,
 //                            gender, workLoc, deductRate, 80000.00);
 //            mainHT.addEmployee(theFTE);
-            jLabel4.setForeground(Color.BLACK);
+            jLabel4.setForeground(null);
             jLabel4.setText("Added new employee: " + jTextField1.getText() + " "
                             + theFirstName + " " + theLastName);
             jLabel9.setText("Gender: " + genderOutput + ", Work location: " + workLocOutput + ", Deduct Rate: " + deductRate * 100 + "%");

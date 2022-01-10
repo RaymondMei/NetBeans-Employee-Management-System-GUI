@@ -49,7 +49,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 }else {
                     jButton1.setEnabled(true);
                 }
-                jLabel4.setForeground(Color.BLACK);
+                jLabel4.setForeground(null);
                 jLabel4.setText("Please press search again");
             }
         });
@@ -76,6 +76,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -269,6 +270,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(genderMButton);
         genderMButton.setText("Male");
         genderMButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -278,6 +280,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
 
         jLabel9.setText("Employee Information");
 
+        buttonGroup1.add(genderFButton);
         genderFButton.setText("Female");
         genderFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,6 +288,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(genderOButton);
         genderOButton.setText("Other");
         genderOButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -292,7 +296,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Change");
+        jButton3.setText("Save");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3addTheNewEmployee(evt);
@@ -510,7 +514,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 int workLoc = returnedEmpInfo.workLoc;
                 if(workLoc == 0){
                     jComboBox1.setSelectedIndex(0);
-                }else if(gender == 1){
+                }else if(workLoc == 1){
                     jComboBox1.setSelectedIndex(1);
                 }else {
                     jComboBox1.setSelectedIndex(2);
@@ -589,14 +593,14 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             double deductRate = Double.parseDouble(jTextField5.getText());
 
             if(deductRate < 0 || deductRate > 1){
-                jTextField5.setBackground(Color.RED);
+//                jTextField5.setBackground(Color.RED);
                 throw new IOException("Invalid Deduct Rate!");
             }
 
                     
             EmployeeInfo returnedEmp = mainHT.returnByEmployeeNumber(theEmpNum, false);
             if(returnedEmp != null && originalEmp.empNum != theEmpNum){ // Checks if Employee ID already exists
-                jTextField1.setBackground(Color.RED);
+//                jTextField1.setBackground(Color.RED);
                 throw new IOException("Employee ID already exists!");
             }
             
@@ -645,7 +649,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             //            FTE theFTE = new FTE(theEmpNum, theFirstName, theLastName,
                 //                            gender, workLoc, deductRate, 80000.00);
             //            mainHT.addEmployee(theFTE);
-            jLabel7.setForeground(Color.BLACK);
+            jLabel7.setForeground(null);
             jLabel7.setText("Added new employee: " + jTextField1.getText() + " "
                 + theFirstName + " " + theLastName);
             jLabel9.setText("Gender: " + genderOutput + ", Work location: " + workLocOutput + ", Deduct Rate: " + deductRate * 100 + "%");
@@ -720,6 +724,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton genderFButton;
     private javax.swing.JRadioButton genderMButton;
     private javax.swing.JRadioButton genderOButton;
