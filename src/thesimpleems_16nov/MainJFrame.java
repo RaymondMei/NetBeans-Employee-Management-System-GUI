@@ -178,7 +178,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        tempJButton1.setText("Create three employees, add to hash table");
+        tempJButton1.setText("(Demo) Add 3 Example Employees");
         tempJButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tempJButton1ActionPerformed(evt);
