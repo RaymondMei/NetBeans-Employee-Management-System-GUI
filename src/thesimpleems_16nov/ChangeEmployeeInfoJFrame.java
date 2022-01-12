@@ -651,7 +651,6 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 
                 deductRate = ((double) Math.round(deductRate * 10000)) / 10000;
                 yearlySalary = ((double) Math.round(yearlySalary * 100)) / 100;
-                
                 theFTE = new FTE(theEmpNum, theFirstName, theLastName,
                     gender, workLoc, deductRate, yearlySalary);
                 mainHT.addEmployee(theFTE);
