@@ -225,11 +225,11 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setText("Hours per Week");
+        jLabel12.setText("Hours per Week [0, 168]");
 
         jTextField7.setColumns(10);
 
-        jLabel13.setText("Weeks per Year");
+        jLabel13.setText("Weeks per Year [0, 52]");
 
         jTextField8.setColumns(10);
 
@@ -501,6 +501,7 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             }
            
         }catch(Exception e) {
+            jLabel4.setForeground(Color.RED);
             jLabel4.setText("Invalid information!");
             jLabel4.setVisible(true);
         }        
@@ -611,6 +612,11 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 throw new IOException("Invalid Deduct Rate!");
             }
 
+            if(theEmpNum < 0 || theEmpNum > 999999){
+//                jTextField1.setBackground(Color.RED);
+                throw new IOException("Employee Number Out of Range!");
+            }
+            
                     
             EmployeeInfo returnedEmp = mainHT.returnByEmployeeNumber(theEmpNum, false);
             if(returnedEmp != null && originalEmp.empNum != theEmpNum){ // Checks if Employee ID already exists
@@ -638,7 +644,14 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
                 // default is FTE so need to check if entered values
                 if(!jTextField4.getText().isBlank()){
                     yearlySalary = Double.parseDouble(jTextField4.getText());
+                    if(yearlySalary < 0){
+                        throw new IOException("Invalid Information!");
+                    }
                 }
+                
+                deductRate = ((double) Math.round(deductRate * 10000)) / 10000;
+                yearlySalary = ((double) Math.round(yearlySalary * 100)) / 100;
+                
                 theFTE = new FTE(theEmpNum, theFirstName, theLastName,
                     gender, workLoc, deductRate, yearlySalary);
                 mainHT.addEmployee(theFTE);
@@ -646,13 +659,28 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
             }else if(jTabbedPane1.getSelectedIndex() == 1){
                 if(!jTextField6.getText().isBlank()){
                     hourlyWage = Double.parseDouble(jTextField6.getText());
+                    if(hourlyWage < 0){
+                        throw new IOException("Invalid Information!");
+                    }
                 }
                 if(!jTextField7.getText().isBlank()){
                     hoursPerWeek = Double.parseDouble(jTextField7.getText());
+                    if(hoursPerWeek < 0 || hoursPerWeek > 168){
+                        throw new IOException("Invalid Information!");
+                    }
                 }
                 if(!jTextField8.getText().isBlank()){
                     weeksPerYear = Double.parseDouble(jTextField8.getText());
+                    if(weeksPerYear < 0 || weeksPerYear > 52){
+                        throw new IOException("Invalid Information!");
+                    }
                 }
+                
+                deductRate = ((double) Math.round(deductRate * 10000)) / 10000;
+                hourlyWage = ((double) Math.round(hourlyWage * 100)) / 100;
+                hoursPerWeek = ((double) Math.round(hoursPerWeek * 100)) / 100;
+                weeksPerYear = ((double) Math.round(weeksPerYear * 100)) / 100;
+                
                 thePTE = new PTE(theEmpNum, theFirstName, theLastName, gender,
                     workLoc, deductRate, hourlyWage, hoursPerWeek, weeksPerYear);
                 mainHT.addEmployee(thePTE);

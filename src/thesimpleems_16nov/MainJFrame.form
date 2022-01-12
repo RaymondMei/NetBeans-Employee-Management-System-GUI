@@ -34,8 +34,9 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="tempJButton1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                       <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
@@ -54,6 +55,7 @@
                           </Group>
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                               <Component id="tempJButton3" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="tempJButton2" min="-2" pref="160" max="-2" attributes="0"/>
@@ -80,12 +82,12 @@
                   <Component id="setEmpInfoButton" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="getEmpInfoButton" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="tempJButton3" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="tempJButton2" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jToggleButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tempJButton1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -106,7 +108,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="tempJButton2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Clear Database"/>
+        <Property name="text" type="java.lang.String" value="Clear Database*"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tempJButton2ActionPerformed"/>

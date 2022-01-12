@@ -249,6 +249,7 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                     model.setValueAt("N/A", empCounter, 10);
                     
                     double netAnnInc = theFTE.getYearlySalary() * (1 - theFTE.getDeductRate());
+                    netAnnInc = ((double) Math.round(netAnnInc * 100)) / 100;
                     model.setValueAt(netAnnInc, empCounter, 11);
                 }
 
@@ -288,6 +289,7 @@ public class LookupEmployeeInfoJFrame extends javax.swing.JFrame {
                     
                     double grossAnnInc = thePTE.getHourlyWage() * thePTE.getHoursPerWeek() * thePTE.getWeeksPerYear();
                     double netAnnInc = grossAnnInc * (1 - thePTE.getDeductRate());
+                    netAnnInc = ((double) Math.round(netAnnInc * 100)) / 100;
                     model.setValueAt(netAnnInc, empCounter, 11);
                }
             }else{

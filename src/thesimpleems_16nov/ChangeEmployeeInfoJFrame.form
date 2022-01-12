@@ -439,7 +439,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel12">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Hours per Week"/>
+                    <Property name="text" type="java.lang.String" value="Hours per Week [0, 168]"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField7">
@@ -449,7 +449,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel13">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Weeks per Year"/>
+                    <Property name="text" type="java.lang.String" value="Weeks per Year [0, 52]"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="jTextField8">
