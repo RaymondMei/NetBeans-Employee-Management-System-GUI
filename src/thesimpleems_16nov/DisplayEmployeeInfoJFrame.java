@@ -1,8 +1,14 @@
 package thesimpleems_16nov;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import thesimpleems_16nov.FTE;
 import javax.swing.table.*;
 
@@ -66,7 +72,42 @@ public class DisplayEmployeeInfoJFrame extends javax.swing.JFrame {
         jTable1.setAutoCreateColumnsFromModel(true);
         jTable1.setRowHeight(40);
         jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_ALL_COLUMNS);
+        jTable1.setDefaultEditor(Object.class, null);
+        jTable1.getTableHeader().setReorderingAllowed(false);
             
+//        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+//            public void valueChanged(ListSelectionEvent event){
+//                if(!event.getValueIsAdjusting()){
+//                    ChangeEmployeeInfoJFrame newCEIJFrame = new ChangeEmployeeInfoJFrame();
+//                    newCEIJFrame.setVisible(true);
+//                    newCEIJFrame.setMainHT(mainHT);
+//                }                
+//            }
+//        });
+        jTable1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent mouseEvent){
+                
+                try{
+                    JTable table = (JTable) mouseEvent.getSource();
+                    Point point = mouseEvent.getPoint();
+                    int row = table.rowAtPoint(point);
+                    if(mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1){
+                        int theEmpNum = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 1).toString());
+                        ChangeEmployeeInfoJFrame newCEIJFrame = new ChangeEmployeeInfoJFrame();
+                        newCEIJFrame.setVisible(true);
+                        newCEIJFrame.setMainHT(mainHT);
+                        newCEIJFrame.changeFromTable(theEmpNum);
+                        dispose();
+//                        System.err.println(table.getValueAt(table.getSelectedRow(), 1).toString());
+                    }
+                }catch(Exception e){
+                    System.err.println(e.getMessage());
+                }
+                
+            }
+        });
+        
         this.empCounter = -1; // Row position in table for the employee
         
         jLabel1.setText("Number of Employees: " + numInHT);

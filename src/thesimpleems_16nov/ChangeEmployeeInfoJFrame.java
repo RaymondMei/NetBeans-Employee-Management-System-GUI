@@ -1,6 +1,7 @@
 package thesimpleems_16nov;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.event.DocumentEvent;
@@ -466,6 +467,11 @@ public class ChangeEmployeeInfoJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void changeFromTable(int theEmpNum){
+        searchField.setText(String.valueOf(theEmpNum));
+        jButton1.doClick();
+    }
+    
     
     private void removeTheNewEmployee(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTheNewEmployee
         // TODO add your handling code here:

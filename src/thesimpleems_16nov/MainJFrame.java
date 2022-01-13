@@ -65,7 +65,7 @@ public class MainJFrame extends javax.swing.JFrame {
             
             while(sc.hasNextLine()){
                 line = sc.nextLine();
-                System.out.println(line);
+//                System.out.println(line);
                 values = line.split("\\|"); // splits with |
                 for(int i=0; i<values.length; i++)  {
                     values[i] = values[i].replaceAll("!@!", "\\|");
@@ -185,7 +185,9 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        tempJButton2.setText("Clear Database*");
+        tempJButton2.setForeground(new java.awt.Color(240, 0, 0));
+        tempJButton2.setText("Clear Database");
+        tempJButton2.setEnabled(false);
         tempJButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tempJButton2ActionPerformed(evt);
